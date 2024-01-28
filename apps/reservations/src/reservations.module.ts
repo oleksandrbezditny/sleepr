@@ -7,10 +7,12 @@ import {
   ReservationDocument,
   ReservationSchema,
 } from './models/reservation.schema';
+import { LoggerModule } from '@app/common';
 
 @Module({
   imports: [
     DatabaseModule,
+    LoggerModule,
     DatabaseModule.forFeature([
       {
         name: ReservationDocument.name,
