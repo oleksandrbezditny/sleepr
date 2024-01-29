@@ -11,8 +11,8 @@ import { LoggerModule } from '@app/common';
 
 @Module({
   imports: [
-    DatabaseModule,
     LoggerModule,
+    DatabaseModule,
     DatabaseModule.forFeature([
       {
         name: ReservationDocument.name,
