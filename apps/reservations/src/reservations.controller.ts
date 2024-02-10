@@ -25,7 +25,7 @@ export class ReservationsController {
   ) {
     return await this.reservationsService.create(
       createReservationDto,
-      currentUser._id,
+      currentUser,
     );
   }
 
