@@ -7,6 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from './users.repository';
 import * as bcrypt from 'bcryptjs';
 import { GetUserDto } from './dto/get-user.dto';
+import { UserDocument } from './models/user.schema';
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
@@ -20,9 +21,15 @@ export class UsersService {
   }
 
   private async validateCreateUserDto(createUserDto: CreateUserDto) {
+    let user: UserDocument = null;
+
     try {
-      await this.userRepository.findOne({ email: createUserDto.email });
+      user = await this.userRepository.findOne({ email: createUserDto.email });
     } catch (e) {
+      return;
+    }
+
+    if (user == null) {
       return;
     }
 
