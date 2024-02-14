@@ -1,6 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-  - args: [
+    args: [
     'build',
     '-t',
     'europe-central2-docker.pkg.dev/sleepr-413909/reservations/production',
@@ -10,10 +10,10 @@ steps:
   ]
 
   - name: 'gcr.io/cloud-builders/docker'
-  - args: [ 'push', 'europe-central2-docker.pkg.dev/sleepr-413909/reservations/production' ]
+    args: [ 'push', 'europe-central2-docker.pkg.dev/sleepr-413909/reservations/production' ]
 
   - name: 'gcr.io/cloud-builders/docker'
-  - args: [
+    args: [
     'build',
     '-t',
     'europe-central2-docker.pkg.dev/sleepr-413909/auth/production',
@@ -23,10 +23,10 @@ steps:
   ]
 
   - name: 'gcr.io/cloud-builders/docker'
-  - args: [ 'push', 'europe-central2-docker.pkg.dev/sleepr-413909/auth/production' ]
+    args: [ 'push', 'europe-central2-docker.pkg.dev/sleepr-413909/auth/production' ]
 
   - name: 'gcr.io/cloud-builders/docker'
-  - args: [
+    args: [
     'build',
     '-t',
     'europe-central2-docker.pkg.dev/sleepr-413909/payments/production',
@@ -36,10 +36,10 @@ steps:
   ]
 
   - name: 'gcr.io/cloud-builders/docker'
-  - args: [ 'push', 'europe-central2-docker.pkg.dev/sleepr-413909/payments/production' ]
+    args: [ 'push', 'europe-central2-docker.pkg.dev/sleepr-413909/payments/production' ]
 
   - name: 'gcr.io/cloud-builders/docker'
-  - args: [
+    args: [
     'build',
     '-t',
     'europe-central2-docker.pkg.dev/sleepr-413909/notifications/production',
@@ -49,4 +49,4 @@ steps:
   ]
 
   - name: 'gcr.io/cloud-builders/docker'
-  - args: [ 'push', 'europe-central2-docker.pkg.dev/sleepr-413909/notifications/production' ]
+    args: [ 'push', 'europe-central2-docker.pkg.dev/sleepr-413909/notifications/production' ]
