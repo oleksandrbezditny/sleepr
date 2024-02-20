@@ -15,25 +15,24 @@ spec:
         app: notifications
     spec:
       containers:
-      - image: europe-central2-docker.pkg.dev/sleepr-413909/notifications/production
-        name: notifications
-        env:
-          - name: PORT
-            value: '3000'
-          - name: GOOGLE_OAUTH_CLIENT_ID
-            value: 264841046703-0j66al8k5dfmhgmodv3dnouvm6oq72m9.apps.googleusercontent.com
-          - name: SMTP_USER
-            value: oleksandrbezditny@gmail.com
-          - name: GOOGLE_OAUTH_CLIENT_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: google
-                key: clientSecret
-          - name: GOOGLE_OAUTH_REFRESH_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: google
-                key: refreshToken
-
-        ports:
-          - containerPort: 3000
+        - image: europe-central2-docker.pkg.dev/sleepr-413909/notifications/production
+          name: notifications
+          env:
+            - name: PORT
+              value: '3000'
+            - name: GOOGLE_OAUTH_CLIENT_ID
+              value: 264841046703-0j66al8k5dfmhgmodv3dnouvm6oq72m9.apps.googleusercontent.com
+            - name: GOOGLE_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: google
+                  key: clientSecret
+            - name: GOOGLE_OAUTH_REFRESH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: google
+                  key: refreshToken
+            - name: SMTP_USER
+              value: oleksandrbezditny@gmail.com
+          ports:
+            - containerPort: 3000
