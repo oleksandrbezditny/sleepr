@@ -1,10 +1,8 @@
-import { Column } from 'typeorm';
+import { Column, Entity } from 'typeorm';
+import { AbstractEntity } from '@app/common';
 
-export class Role {
+@Entity()
+export class Role extends AbstractEntity<Role> {
   @Column()
   name: string;
-
-  constructor(entity: Partial<Role>) {
-    Object.assign(this, entity);
-  }
 }

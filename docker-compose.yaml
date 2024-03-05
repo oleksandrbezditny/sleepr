@@ -4,9 +4,10 @@ services:
       context: .
       dockerfile: ./apps/reservations/Dockerfile
       target: development
-    command: pnpm run start:dev reservations
+    command: pnpm run start:debug reservations
     ports:
       - '3000:3000'
+      - '9229:9229'
     volumes:
       - .:/usr/src/app
     env_file:
@@ -16,10 +17,9 @@ services:
       context: .
       dockerfile: ./apps/auth/Dockerfile
       target: development
-    command: pnpm run start:debug auth
+    command: pnpm run start:dev auth
     ports:
       - '3001:3001'
-      - '9229:9229'
     volumes:
       - .:/usr/src/app
     env_file:
