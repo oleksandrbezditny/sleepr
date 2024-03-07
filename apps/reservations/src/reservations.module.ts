@@ -42,28 +42,24 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ClientsModule.registerAsync([
       {
         name: AUTH_SERVICE,
-        useFactory: (configService: ConfigService) => {
-          return {
-            transport: Transport.TCP,
-            options: {
-              host: configService.get('AUTH_HOST'),
-              port: configService.get('AUTH_PORT'),
-            },
-          };
-        },
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [configService.getOrThrow<string>('RABBITMQ_URI')],
+            queue: 'auth',
+          },
+        }),
         inject: [ConfigService],
       },
       {
         name: PAYMENTS_SERVICE,
-        useFactory: (configService: ConfigService) => {
-          return {
-            transport: Transport.TCP,
-            options: {
-              host: configService.get('PAYMENTS_HOST'),
-              port: configService.get('PAYMENTS_PORT'),
-            },
-          };
-        },
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [configService.getOrThrow<string>('RABBITMQ_URI')],
+            queue: 'payments',
+          },
+        }),
         inject: [ConfigService],
       },
     ]),
