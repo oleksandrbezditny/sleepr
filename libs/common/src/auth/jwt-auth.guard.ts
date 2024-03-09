@@ -4,21 +4,27 @@ import {
   Inject,
   Injectable,
   Logger,
+  OnModuleInit,
   UnauthorizedException,
 } from '@nestjs/common';
 import { catchError, map, Observable, of, tap } from 'rxjs';
-import { AUTH_SERVICE } from '@app/common/constants/services';
-import { ClientProxy } from '@nestjs/microservices';
-import { UserDto } from '@app/common/dto';
+import { ClientGrpc } from '@nestjs/microservices';
 import { Reflector } from '@nestjs/core';
+import { AUTH_SERVICE_NAME, AuthServiceClient } from '@app/common/types';
 
 @Injectable()
-export class JwtAuthGuard implements CanActivate {
+export class JwtAuthGuard implements CanActivate, OnModuleInit {
   private readonly logger = new Logger(JwtAuthGuard.name);
+  private authService: AuthServiceClient;
   constructor(
-    @Inject(AUTH_SERVICE) private readonly authClient: ClientProxy,
+    @Inject(AUTH_SERVICE_NAME) private readonly client: ClientGrpc,
     private readonly reflector: Reflector,
   ) {}
+
+  onModuleInit(): void {
+    this.authService =
+      this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
+  }
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
@@ -31,8 +37,8 @@ export class JwtAuthGuard implements CanActivate {
 
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
 
-    return this.authClient
-      .send<UserDto>('authenticate', {
+    return this.authService
+      .authenticate({
         Authentication: jwt,
       })
       .pipe(
@@ -46,7 +52,10 @@ export class JwtAuthGuard implements CanActivate {
             }
           }
 
-          context.switchToHttp().getRequest().user = res;
+          context.switchToHttp().getRequest().user = {
+            ...res,
+            _id: res.id,
+          };
         }),
         map(() => true),
         catchError((err) => {
