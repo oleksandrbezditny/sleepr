@@ -43,7 +43,7 @@ export class JwtAuthGuard implements CanActivate, OnModuleInit {
       })
       .pipe(
         tap((res) => {
-          if (!roles) {
+          if (roles?.length) {
             for (const role of roles) {
               if (!res.roles.includes(role)) {
                 this.logger.error('The user does not have valid roles');
